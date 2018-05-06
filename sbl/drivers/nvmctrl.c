@@ -52,13 +52,13 @@ int nvmctrl_exec(enum nvm_cmd cmd, uint32_t addr){
     nvmctrl_wait();
 
     /* Possible EERATA bug? */
-    iowrite32(NVMCTRL + NVMCTRL_CTRLB_U32, ctrlb | NVMCTRL_CTRLB_CACHEDIS);
+    iowrite32(NVMCTRL + NVMCTRL_CTRLB_U32, ctrlb | CTRLB_CACHEDIS);
     
     /* Address is 16bit based */
-    iowrite32(NVMCTRL + NVMCTRL_ADDR_U32, addr / 2u)
+    iowrite32(NVMCTRL + NVMCTRL_ADDR_U32, addr / 2u);
 
     /* execute command */
-    iowrite16(NVMCTRL + NVMCTRL_CTRLA_U16, (cmd | 0xA500U))
+    iowrite16(NVMCTRL + NVMCTRL_CTRLA_U16, (cmd | 0xA500U));
     nvmctrl_wait();
 
     /* Restore ctrlb */
@@ -72,7 +72,7 @@ int nvmctrl_exec(enum nvm_cmd cmd, uint32_t addr){
  * @brief Return main memory size
  */
 uint32_t nvmctrl_main_flash_size(void){
-    return (ioread32(NVMCTRL + NVMCTRL_PARM_U32) & 0xFFFFu) * NVMCTRL_PAGE_SIZE
+    return (ioread32(NVMCTRL + NVMCTRL_PARM_U32) & 0xFFFFu) * NVMCTRL_PAGE_SIZE;
 }
 
 /**
