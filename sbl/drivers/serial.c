@@ -62,7 +62,7 @@ void serial_begin(uint32_t sercom, uint32_t baud, enum SERIAL_CONFIG config, enu
  */
 void serial_write(uint32_t sercom, uint8_t data){
 	iowrite16(data, sercom+USART_DATA);
-	while(ioread8(sercom+USART_INTFLAG) & INTFLAG_TXC == 0){}
+	while( (ioread8(sercom+USART_INTFLAG) & INTFLAG_TXC) == 0){}
 }
 
 /**

@@ -39,6 +39,11 @@ enum SERIAL_MUX{
 #define SERIAL_BAUD_57600_16MHZ		(61671u)
 #define SERIAL_BAUD_19200_16MHZ		(64278u)
 
+#define SERIAL_BAUD_115200_4MHZ		(35337u)
+#define SERIAL_BAUD_57600_4MHZ		(50437u)
+#define SERIAL_BAUD_19200_4MHZ		(60503u)
+
+
 void serial_begin(uint32_t sercom, uint32_t baud, enum SERIAL_CONFIG config, enum SERIAL_MUX mux);
 void serial_write(uint32_t sercom, uint8_t ch);
 int serial_read(uint32_t sercom);
