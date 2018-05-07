@@ -59,3 +59,4 @@ inline void iowrite16(uint16_t value, uint32_t addr){
 inline void iowrite32(uint32_t value, uint32_t addr) {
 	*(uint32_t *)addr = value;
 }
+

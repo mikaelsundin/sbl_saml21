@@ -46,7 +46,13 @@ enum SERIAL_MUX{
 
 void serial_begin(uint32_t sercom, uint32_t baud, enum SERIAL_CONFIG config, enum SERIAL_MUX mux);
 void serial_write(uint32_t sercom, uint8_t ch);
-int serial_read(uint32_t sercom);
+void serial_flush(uint32_t sercom);
+
+uint8_t serial_read(uint32_t sercom);
+int serial_available(uint32_t sercom);
+
+void disable_serial_rx(uint32_t sercom);
+void enable_serial_rx(uint32_t sercom);
 
 
 

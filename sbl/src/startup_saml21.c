@@ -26,6 +26,7 @@
  *
  */
 #include <stdint.h>
+#include <stddef.h>
 #include "saml21.h"
 #include "core_cm0plus.h"
 
@@ -127,7 +128,7 @@ void Reset_Handler(void)
         SCB->VTOR = ((uint32_t) pSrc & SCB_VTOR_TBLOFF_Msk);
 
         /* Overwriting the default value of the NVMCTRL.CTRLB.MANW bit (errata reference 13134) */
-		*(volatile uint32_t*)(NVMCTRL + 0x04u) = 0x40u;
+		*(volatile uint32_t*)(NVMCTRL + 0x04u) = 0x80u;
 
         /* Branch to main function */
         main();

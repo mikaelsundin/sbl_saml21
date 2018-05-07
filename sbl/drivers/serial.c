@@ -61,20 +61,43 @@ void serial_begin(uint32_t sercom, uint32_t baud, enum SERIAL_CONFIG config, enu
  * @brief send one byte payload
  */
 void serial_write(uint32_t sercom, uint8_t data){
+	while( (ioread8(sercom+USART_INTFLAG) & INTFLAG_DRE) == 0){}
 	iowrite16(data, sercom+USART_DATA);
+}
+
+/**
+ * @brief wait until all data is transmitted
+ */
+void serial_flush(uint32_t sercom){
 	while( (ioread8(sercom+USART_INTFLAG) & INTFLAG_TXC) == 0){}
 }
 
 /**
- * @brief read serial port
- * @return return non zero on uart data else -1
+ * @brief Disable serial RX
  */
-int serial_read(uint32_t sercom){
-	int data = -1;
-	
-	if(ioread8(sercom+USART_INTFLAG) & INTFLAG_RXC){
-		data = ioread16(sercom+USART_DATA);
-	}
+void disable_serial_rx(uint32_t sercom){
+	uint32_t ctrlb =  ioread32(sercom + USART_CTRLB);
+	iowrite32(ctrlb & (uint32_t)(~CTRLB_RXEN), sercom + USART_CTRLB);
+}
 
-	return data;
+/**
+ * @brief Enable serial RX
+ */
+void enable_serial_rx(uint32_t sercom){
+	uint32_t ctrlb =  ioread32(sercom + USART_CTRLB);
+	iowrite32(ctrlb | (uint32_t)(CTRLB_RXEN), sercom + USART_CTRLB);
+}
+
+/**
+ * @brief get number of bytes available
+ */
+int serial_available(uint32_t sercom){
+	return ((ioread8(sercom+USART_INTFLAG) & INTFLAG_RXC) != 0u) ? 1 : 0;
+}
+
+/**
+ * @brief read serial port
+ */
+uint8_t serial_read(uint32_t sercom){
+	return ioread16(sercom+USART_DATA);
 }
