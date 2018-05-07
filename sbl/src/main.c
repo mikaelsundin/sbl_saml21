@@ -12,6 +12,7 @@
 #include "nvmctrl.h"
 #include "serial.h"
 #include "gpio.h"
+#include "sbl.h"
 
 volatile uint32_t dummy=0u;
 __IO uint32_t *pchctrl = (__IO uint32_t *)(GCLK+0x80);
@@ -51,15 +52,17 @@ int main(void){
 
 	//nvmctrl_flash_write(0x1000, x);
 	//nvmctrl_flash_erase(0x1000);
-
-	serial_begin(SERCOM5, SERIAL_BAUD_115200_4MHZ, SERIAL_8E1, SERIAL_TX2_RX3);
+	sbl_init();
+	
 
     /* Replace with your application code */
     while (1){
-		y = serial_read(SERCOM5);
+		sbl_task();
+		/*y = serial_read(SERCOM5);
 		if(y >= 0){
 			dummy++;
 			serial_write(SERCOM5, y);
 		}
+		*/
     }
 }
